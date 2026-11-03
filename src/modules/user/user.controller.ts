@@ -1,8 +1,6 @@
 import { Router, Request, NextFunction, Response } from "express";
 import { validation } from "../../middleware/validation.middleware";
 import { ResponseFormatter } from "../../middleware/response.middleware";
-
-
 import { UserService } from "./user.service";
 import * as validators from "./user.validation";
 import { authentication } from "../authenticantion/auth.middlewere";
@@ -22,8 +20,6 @@ router.get("/profile", ResponseFormatter(async (req: Request,res:Response,next:N
 router.patch("/profile", validation(validators.updateProfile), ResponseFormatter(async (req: Request,res:Response,next:NextFunction) => {
     return { data: await userService.updateProfile(req.auth?.user._id, req.body) };
 }));
-
-
 router.post("/:userId/follow", validation(validators.followUser), ResponseFormatter(async (req: Request,res:Response,next:NextFunction) => {
     return { data: await userService.followUser(req.auth?.user._id, req.params.userId as string) };
 }));
